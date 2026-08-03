@@ -85,6 +85,7 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'rspec-rails'
   gem "selenium-webdriver"
+  gem 'webmock'
 
   # Linting Utilities
   # Run 'bundle exec pronto' to check code with linters
