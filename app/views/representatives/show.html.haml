@@ -21,17 +21,19 @@
 
       %hr
       %h4 Contact Information
-      - if @representative.address.present?
-        %p
-          %strong Address:
-          = @representative.address
-      - if @representative.phone.present?
-        %p
-          %strong Phone:
-          = @representative.phone
-      - if @representative.website.present?
+      %p
+        %strong Address:
+        = or_unavail(@representative.address)
+      %p
+        %strong Phone:
+        = or_unavail(@representative.phone)
+      -if @representative.website.present?
         %p
           %strong Website:
           = link_to @representative.website, @representative.website, target: '_blank'
+      -else
+        %p
+          %strong Website:
+          N/A
   .mt-3
     = link_to 'Back to Search', search_representatives_path, class: 'btn btn-secondary'
