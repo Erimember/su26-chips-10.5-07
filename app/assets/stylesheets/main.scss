@@ -100,3 +100,8 @@ div.actions {
 label {
   display: block;
 }
+// Bootstrap's default link blue (#0d6efd) gives 4.24:1 against the light
+// card background, below the WCAG AA threshold of 4.5:1.
+.btn-link {
+  color: #0a58ca;
+}
