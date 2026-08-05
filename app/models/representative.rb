@@ -57,22 +57,19 @@ class Representative < ApplicationRecord
     rep ||= find_by(name: official['name'])
     rep ||= new
 
-    rep.update(
-      name: official['name'],
-      ocdid: ocdid,
-      title: title,
-      party: official.dig('bio', 'party'),
-      photo_url: official['photo_url']
-    )
-    rep
+    rep.update_from_geocodio(official, title: title, ocdid: ocdid)
   end
 
-  def update_from_geocodio(official)
-    self.title = official['type']
-    self.ocdid = official['govtrack_id']
-    self.party = official['party']
+  def update_from_geocodio(official, title: nil, ocdid: nil)
+    self.name = official['name'] if official['name'].present?
+    self.title = title || official['type']
+    self.ocdid = ocdid || official.dig('references', 'govtrack_id')
+    self.party = official.dig('bio', 'party')
     self.photo_url = official['photo_url']
-    # TODO: store the address, phone and website
+    self.address = official.dig('contact', 'address')
+    self.phone = official.dig('contact', 'phone')
+    self.website = official.dig('contact', 'url')
+    self.bioguide_id = official.dig('references', 'bioguide_id')
     save!
     self
   end
