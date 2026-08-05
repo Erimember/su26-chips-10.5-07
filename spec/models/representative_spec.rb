@@ -61,4 +61,34 @@ RSpec.describe Representative do
       expect(described_class.find_by(name: 'Jane Doe').ocdid).to eq('412345')
     end
   end
+
+  describe '#update_from_geocodio' do
+    let(:legislators) do
+      rep_info['results'][0]['response']['results'][0]['fields']['congressional_districts'][0]['current_legislators']
+    end
+
+    it 'stores the contact details from the contact block' do
+      rep = described_class.new(name: 'Jane Doe')
+      rep.update_from_geocodio(legislators[0])
+
+      expect(rep.phone).to eq('202-225-0000')
+      expect(rep.website).to eq('https://doe.house.gov')
+      expect(rep.address).to eq('1234 Longworth House Office Building; Washington DC 20515')
+    end
+
+    it 'stores the bioguide id from the references block' do
+      rep = described_class.new(name: 'Jane Doe')
+      rep.update_from_geocodio(legislators[0])
+
+      expect(rep.bioguide_id).to eq('D000000')
+    end
+
+    it 'leaves missing fields nil rather than raising' do
+      rep = described_class.new(name: 'Richard Roe')
+
+      expect { rep.update_from_geocodio(legislators[1]) }.not_to raise_error
+      expect(rep.party).to be_nil
+      expect(rep.bioguide_id).to be_nil
+    end
+  end
 end
