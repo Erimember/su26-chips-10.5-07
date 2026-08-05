@@ -1,0 +1,98 @@
+{
+  "results": [
+    {
+      "query": "1600 Pennsylvania Ave NW Washington DC",
+      "response": {
+        "results": [
+          {
+            "address_components": {
+              "number": "1600",
+              "street": "Pennsylvania",
+              "suffix": "Ave",
+              "postdirectional": "NW",
+              "formatted_street": "Pennsylvania Ave NW",
+              "city": "Washington",
+              "county": "District of Columbia",
+              "state": "DC",
+              "zip": "20500",
+              "country": "US"
+            },
+            "formatted_address": "1600 Pennsylvania Ave NW, Washington, DC 20500",
+            "location": {
+              "lat": 38.897675,
+              "lng": -77.036547
+            },
+            "accuracy": 1,
+            "accuracy_type": "rooftop",
+            "source": "Test fixture",
+            "fields": {
+              "congressional_districts": [
+                {
+                  "name": "Congressional District 12",
+                  "district_number": 12,
+                  "ocd_id": "ocd-division/country:us/state:ca/cd:12",
+                  "congress_number": "119th",
+                  "congress_years": "2025-2027",
+                  "proportion": 1,
+                  "current_legislators": [
+                    {
+                      "type": "representative",
+                      "bio": {
+                        "last_name": "Doe",
+                        "first_name": "Jane",
+                        "birthday": "1970-01-15",
+                        "gender": "F",
+                        "party": "Democrat"
+                      },
+                      "contact": {
+                        "url": "https://doe.house.gov",
+                        "address": "1234 Longworth House Office Building; Washington DC 20515",
+                        "phone": "202-225-0000",
+                        "contact_form": "https://doe.house.gov/contact"
+                      },
+                      "social": {
+                        "rss_url": "https://doe.house.gov/rss.xml",
+                        "twitter": "repjanedoe",
+                        "facebook": "repjanedoe",
+                        "youtube": "repjanedoe",
+                        "youtube_id": "UCtestchannelid"
+                      },
+                      "references": {
+                        "bioguide_id": "D000000",
+                        "thomas_id": "01234",
+                        "opensecrets_id": "N00000000",
+                        "lis_id": null,
+                        "cspan_id": "12345",
+                        "govtrack_id": "412345",
+                        "votesmart_id": "54321",
+                        "ballotpedia_id": "Jane Doe",
+                        "washington_post_id": null,
+                        "icpsr_id": "20000",
+                        "wikipedia_id": "Jane Doe"
+                      },
+                      "source": "Test fixture"
+                    },
+                    {
+                      "type": "senator",
+                      "bio": {
+                        "last_name": "Roe",
+                        "first_name": "Richard"
+                      },
+                      "contact": {
+                        "url": "https://roe.senate.gov",
+                        "address": "500 Hart Senate Office Building; Washington DC 20510"
+                      },
+                      "social": {},
+                      "references": {},
+                      "source": "Test fixture"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
