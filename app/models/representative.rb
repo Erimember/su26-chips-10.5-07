@@ -4,12 +4,18 @@
 #
 # Table name: representatives
 #
-#  id         :integer          not null, primary key
-#  name       :string
-#  ocdid      :string
-#  title      :string
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id          :integer          not null, primary key
+#  address     :string
+#  name        :string
+#  ocdid       :string
+#  party       :string
+#  phone       :string
+#  photo_url   :string
+#  title       :string
+#  website     :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  bioguide_id :string
 #
 class Representative < ApplicationRecord
   has_many :news_items, dependent: :delete_all
