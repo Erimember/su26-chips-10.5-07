@@ -1,4 +1,37 @@
-.container-fluid.bg-light
-  .row.text-center
-    .col-12
-      %h1.text-center= @representative&.name
+.container.mt-4
+  .row
+    .col-md-3.text-center
+      - if @representative.photo_url.present?
+        = image_tag @representative.photo_url,
+            class: 'img-fluid rounded shadow',
+            alt:   "Photo of #{@representative.name}",
+            onerror: "this.style.display='none'"
+      - else
+        .bg-secondary.rounded.d-flex.align-items-center.justify-content-center{ style: 'height:200px;width:100%' }
+          %span.text-white No photo available
+
+    .col-md-9
+      %h1= @representative.name
+      - if @representative.title.present?
+        %h5.text-muted= @representative.title
+      - if @representative.party.present?
+        %p
+          %strong Party:
+          = @representative.party
+
+      %hr
+      %h4 Contact Information
+      - if @representative.address.present?
+        %p
+          %strong Address:
+          = @representative.address
+      - if @representative.phone.present?
+        %p
+          %strong Phone:
+          = @representative.phone
+      - if @representative.website.present?
+        %p
+          %strong Website:
+          = link_to @representative.website, @representative.website, target: '_blank'
+  .mt-3
+    = link_to 'Back to Search', search_representatives_path, class: 'btn btn-secondary'
