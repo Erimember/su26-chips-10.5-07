@@ -14,6 +14,7 @@ end
 
 SimpleCov.start 'rails' do
   command_name 'rspec'
+  add_filter %r{^/lib/}
 
   ## CS169: You may want to modify some of the testing configuration.
 
