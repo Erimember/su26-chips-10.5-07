@@ -65,11 +65,13 @@ class Representative < ApplicationRecord
     self.title = title || official['type']
     self.ocdid = ocdid || official.dig('references', 'govtrack_id')
     self.party = official.dig('bio', 'party')
-    self.photo_url = official['photo_url']
     self.address = official.dig('contact', 'address')
     self.phone = official.dig('contact', 'phone')
     self.website = official.dig('contact', 'url')
     self.bioguide_id = official.dig('references', 'bioguide_id')
+    self.photo_url = if bioguide_id.present?
+                       "https://bioguide.congress.gov/bioguide/photo/#{bioguide_id[0]}/#{bioguide_id}.jpg"
+                     end
     save!
     self
   end

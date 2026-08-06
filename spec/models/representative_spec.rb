@@ -90,5 +90,20 @@ RSpec.describe Representative do
       expect(rep.party).to be_nil
       expect(rep.bioguide_id).to be_nil
     end
+
+    it 'constructs correct photo_url' do
+      rep = described_class.new(name: 'Lebron James')
+      rep.update_from_geocodio(legislators[0])
+
+      expect(rep.bioguide_id).to eq('D000000')
+      expect(rep.photo_url).to eq('https://bioguide.congress.gov/bioguide/photo/D/D000000.jpg')
+    end
+
+    it 'sets photo_url to nil when bioguide_id is nil' do
+      rep = described_class.new(name: 'Lionel Messi')
+      expect { rep.update_from_geocodio(legislators[1]) }.not_to raise_error
+      expect(rep.bioguide_id).to be_nil
+      expect(rep.photo_url).to be_nil
+    end
   end
 end
