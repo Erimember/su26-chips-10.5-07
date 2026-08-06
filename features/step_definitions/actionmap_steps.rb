@@ -42,3 +42,19 @@ Then /I should see (\d+) (?:states|counties)/i do |count|
   # How many counties should the map render
   # You might use this as a check that the right number of elements are rendered.
 end
+
+When /^I search for "(.*)"$/ do |query|
+  visit "/search/#{CGI.escape(query)}"
+end
+
+When /^I visit the county page for "(\w\w)" county "(\d+)"$/ do |state, fips|
+  visit county_path(state_symbol: state, std_fips_code: fips)
+end
+
+Then /^there should be (\d+) representatives$/ do |count|
+  expect(Representative.count).to eq(count.to_i)
+end
+
+Then /^the map should render clickable regions$/ do
+  expect(page).to have_css('.actionmap-view-region', minimum: 1)
+end
