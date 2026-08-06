@@ -30,3 +30,7 @@ Feature: Finding representatives from the county map
     Given I am on the state page for "CA"
     Then I should see "California"
     And the map should render clickable regions
+
+  Scenario: A representative's news items page renders
+    When I visit a representative's news items page
+    Then I should see "News"

@@ -58,3 +58,8 @@ end
 Then /^the map should render clickable regions$/ do
   expect(page).to have_css('.actionmap-view-region', minimum: 1)
 end
+
+When /^I visit a representative's news items page$/ do
+  rep = Representative.create!(name: 'Test Rep', ocdid: '999999', title: 'senator')
+  visit representative_news_items_path(rep)
+end
