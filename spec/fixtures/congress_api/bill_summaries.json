@@ -1,0 +1,22 @@
+{
+    "pagination": {
+        "count": 1
+    },
+    "request": {
+        "billNumber": "96",
+        "billType": "hr",
+        "billUrl": "https://api.congress.gov/v3/bill/119/hr/96?format=json",
+        "congress": "119",
+        "contentType": "application/json",
+        "format": "json"
+    },
+    "summaries": [
+        {
+            "actionDate": "2025-01-03",
+            "actionDesc": "Introduced in House",
+            "text": "<p><strong>Buzz Off Act</strong></p><p>This bill prohibits federal law enforcement from using unmanned aerial vehicles to intentionally conduct surveillance of a specifically targeted U.S. citizen or the property of such an individual, with certain exceptions.</p><p>Specifically, this prohibition shall not apply if (1) the federal law enforcement agency in question first obtains a search warrant, (2) the Department of Homeland Security certifies that such surveillance is necessary to counter a high risk of a terrorist attack by a specified person or organization, or (3) the citizen gives written consent for a photograph or recording that will be made available to the public.</p>",
+            "updateDate": "2025-03-03T14:09:12Z",
+            "versionCode": "00"
+        }
+    ]
+}
