@@ -15,6 +15,19 @@ module ApplicationHelper
       ENV.fetch(secret, Rails.application.credentials[secret.to_sym]).present?
   end
 
+  def bill_display_number(bill)
+    "#{bill['type']} #{bill['number']}"
+  end
+
+  def format_last_action(action)
+    return '' if action.blank?
+
+    date = Date.parse(action['actionDate']).strftime('%b %-d, %Y')
+    "#{action['text']} on #{date}"
+  rescue ArgumentError, TypeError
+    action['text'].to_s
+  end
+
   def self.state_ids_by_name
     State.all.each_with_object({}) do |state, memo|
       memo[state.name] = state.id
