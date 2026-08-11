@@ -13,10 +13,17 @@ RSpec.describe BillsController do
   end
 
   describe 'GET /index' do
-    it 'renders a successful response' do
-      Bill.create!(valid_attributes)
+    before do
+      stub_request(:get, %r{api\.congress\.gov/v3/bill})
+        .to_return(status: 200,
+                   body: Rails.root.join('spec/fixtures/congress_api/bills_recent.json').read,
+                   headers: { 'Content-Type' => 'application/json' })
+    end
+
+    it 'renders a successful response with API results' do
       get bills_url
       expect(response).to be_successful
+      expect(response.body).to include('bills-results')
     end
   end
 

@@ -1,8 +1,34 @@
 %p.notice= notice
+%p.alert= alert
 - content_for :title, 'Bills'
 %h1 Bills
-%div{id: 'bills'}
-  - @bills.each do |bill|
-    = render bill
-    %p
-      = link_to 'Show this bill', bill
+
+= form_with url: bills_path, method: :get, local: true do
+  %label{for: 'congress'} Congress
+  = text_field_tag :congress, params[:congress]
+  %label{for: 'bill_type'} Bill type
+  = select_tag :bill_type, options_for_select(BillsController::BILL_TYPES, params[:bill_type]), include_blank: 'All types'
+  = submit_tag 'Search'
+
+%p= "Showing #{@shown_count} of #{number_with_delimiter(@total_count)} results"
+%table#bills-results
+  %thead
+    %tr
+      %th= '#'
+      %th Title
+      %th Congress
+      %th Type
+      %th Chamber
+      %th Last Action
+      %th Save
+  %tbody
+    - @bills.each do |bill|
+      %tr
+        %td= bill_display_number(bill)
+        %td= bill['title']
+        %td= bill['congress']
+        %td= bill['type']
+        %td= bill['originChamber']
+        %td= format_last_action(bill['latestAction'])
+        %td
+          = button_to 'Save', bills_path, method: :post, params: { bill: { title: bill['title'], congress: bill['congress'], number: bill['number'].to_i, original_chamber: bill['originChamber'], type: bill['type'] } }

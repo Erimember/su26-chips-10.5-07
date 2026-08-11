@@ -3,15 +3,20 @@
 class BillsController < ApplicationController
   before_action :set_bill, only: %i[show]
 
-  # GET /bills or /bills.json
+  BILL_TYPES = %w[hr s hjres sjres hconres sconres hres sres].freeze
+
+  # GET /bills — searches the congress.gov API (Task 2.4)
   def index
-    @bills = Bill.all
+    result = fetch_bills
+    @bills = result['bills'] || []
+    @shown_count = @bills.length
+    @total_count = result.dig('pagination', 'count') || @shown_count
   end
 
-  # GET /bills/1 or /bills/1.json
+  # GET /bills/1
   def show; end
 
-  # POST /bills or /bills.json
+  # POST /bills
   def create
     @bill = Bill.new(bill_params)
 
@@ -27,6 +32,28 @@ class BillsController < ApplicationController
   end
 
   private
+
+  def fetch_bills
+    if params[:bill_type].present? && params[:congress].blank?
+      flash.now[:alert] = 'A congress number is required when searching by bill type.'
+      return recent_bills
+    end
+
+    return recent_bills if params[:congress].blank?
+
+    congress_client.bills(congress: params[:congress], type: params[:bill_type].presence || 'all', limit: 50).get
+  rescue Congress::Error => e
+    flash.now[:alert] = "congress.gov API error: #{e.message}"
+    { 'bills' => [] }
+  end
+
+  def recent_bills
+    congress_client.bills(sort: 'updateDate+desc', limit: 50).get
+  end
+
+  def congress_client
+    @congress_client ||= Congress::Client.new(Rails.application.credentials[:CONGRESS_GOV_API_KEY])
+  end
 
   def set_bill
     @bill = Bill.find(params[:id])

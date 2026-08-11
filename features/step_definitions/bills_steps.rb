@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-When('I go to the bills page') do
+When('I visit the bills page') do
   visit '/bills'
 end
 
