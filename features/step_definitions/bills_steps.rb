@@ -27,10 +27,16 @@ Then('I should see a message that congress is required') do
 end
 
 When('I save the first bill in the results') do
+  expect(page).to have_css('#bills-results tbody tr')
+  first('#bills-results tbody tr').click_button('Save')
+rescue Selenium::WebDriver::Error::StaleElementReferenceError
+  # The page re-rendered between locating the row and clicking (CI timing);
+  # the row reference went stale — re-locate and click once more.
   first('#bills-results tbody tr').click_button('Save')
 end
 
 Then('I should see the saved bill page with a summary') do
+  expect(page).to have_content('Bill was successfully created.')
   expect(page).to have_current_path(%r{/bills/\d+})
   expect(page).to have_content('Summary:')
   expect(Bill.last.summary).to be_present
