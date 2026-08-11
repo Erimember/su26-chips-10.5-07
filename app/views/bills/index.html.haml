@@ -7,10 +7,11 @@
   %label{for: 'congress'} Congress
   = text_field_tag :congress, params[:congress]
   %label{for: 'bill_type'} Bill type
-  = select_tag :bill_type, options_for_select(BillsController::BILL_TYPES, params[:bill_type]), include_blank: 'All types'
+  - type_options = options_for_select(BillsController::BILL_TYPES, params[:bill_type])
+  = select_tag :bill_type, type_options, include_blank: 'All types'
   = submit_tag 'Search'
 
-%p= "Showing #{@shown_count} of #{number_with_delimiter(@total_count)} results"
+%p Showing #{@shown_count} of #{number_with_delimiter(@total_count)} results
 %table#bills-results
   %thead
     %tr
@@ -31,4 +32,6 @@
         %td= bill['originChamber']
         %td= format_last_action(bill['latestAction'])
         %td
-          = button_to 'Save', bills_path, method: :post, params: { bill: { title: bill['title'], congress: bill['congress'], number: bill['number'].to_i, original_chamber: bill['originChamber'], type: bill['type'] } }
+          - save_params = { title: bill['title'], congress: bill['congress'], number: bill['number'].to_i }
+          - save_params.merge!(original_chamber: bill['originChamber'], type: bill['type'])
+          = button_to 'Save', bills_path, method: :post, params: { bill: save_params }
