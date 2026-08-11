@@ -1,0 +1,35 @@
+= form_with(model: bill) do |form|
+  - if bill.errors.any?
+    %div{style: "color: red"}
+      %h2= "#{pluralize(bill.errors.count, "error")} prohibited this bill from being saved:"
+
+      %ul
+        - bill.errors.each do |error|
+          %li= error.full_message
+
+  %div
+    = form.label :title, style: "display: block"
+    = form.text_field :title
+
+  %div
+    = form.label :congress, style: "display: block"
+    = form.number_field :congress
+
+  %div
+    = form.label :number, style: "display: block"
+    = form.number_field :number
+
+  %div
+    = form.label :original_chamber, style: "display: block"
+    = form.text_field :original_chamber
+
+  %div
+    = form.label :type, style: "display: block"
+    = form.text_field :type
+
+  %div
+    = form.label :summary, style: "display: block"
+    = form.text_area :summary
+
+  %div
+    = form.submit

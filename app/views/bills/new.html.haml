@@ -1,0 +1,10 @@
+- content_for :title, "New bill"
+
+%h1 New bill
+
+= render "form", bill: @bill
+
+%br
+
+%div
+  = link_to "Back to bills", bills_path

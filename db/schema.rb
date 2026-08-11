@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_08_03_195712) do
+ActiveRecord::Schema[7.2].define(version: 2026_08_11_070915) do
+  create_table "bills", force: :cascade do |t|
+    t.string "title"
+    t.integer "congress"
+    t.integer "number"
+    t.string "original_chamber"
+    t.string "type"
+    t.text "summary"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "counties", force: :cascade do |t|
     t.string "name", null: false
     t.integer "state_id", null: false
