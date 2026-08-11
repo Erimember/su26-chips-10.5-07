@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class BillsController < ApplicationController
-  before_action :set_bill, only: %i[ show edit update destroy ]
+  before_action :set_bill, only: %i[show]
 
   # GET /bills or /bills.json
   def index
@@ -7,17 +9,7 @@ class BillsController < ApplicationController
   end
 
   # GET /bills/1 or /bills/1.json
-  def show
-  end
-
-  # GET /bills/new
-  def new
-    @bill = Bill.new
-  end
-
-  # GET /bills/1/edit
-  def edit
-  end
+  def show; end
 
   # POST /bills or /bills.json
   def create
@@ -25,46 +17,22 @@ class BillsController < ApplicationController
 
     respond_to do |format|
       if @bill.save
-        format.html { redirect_to @bill, notice: "Bill was successfully created." }
+        format.html { redirect_to @bill, notice: 'Bill was successfully created.' }
         format.json { render :show, status: :created, location: @bill }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { redirect_to bills_path, alert: 'Bill could not be saved.' }
         format.json { render json: @bill.errors, status: :unprocessable_entity }
       end
-    end
-  end
-
-  # PATCH/PUT /bills/1 or /bills/1.json
-  def update
-    respond_to do |format|
-      if @bill.update(bill_params)
-        format.html { redirect_to @bill, notice: "Bill was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @bill }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @bill.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /bills/1 or /bills/1.json
-  def destroy
-    @bill.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to bills_path, notice: "Bill was successfully destroyed.", status: :see_other }
-      format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_bill
-      @bill = Bill.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def bill_params
-      params.require(:bill).permit(:title, :congress, :number, :original_chamber, :type, :summary)
-    end
+  def set_bill
+    @bill = Bill.find(params[:id])
+  end
+
+  def bill_params
+    params.require(:bill).permit(:title, :congress, :number, :original_chamber, :type, :summary)
+  end
 end
