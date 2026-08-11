@@ -1,0 +1,8 @@
+%p.notice= notice
+- content_for :title, 'Bills'
+%h1 Bills
+%div{id: 'bills'}
+  - @bills.each do |bill|
+    = render bill
+    %p
+      = link_to 'Show this bill', bill
