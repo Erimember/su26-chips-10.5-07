@@ -25,3 +25,13 @@ end
 Then('I should see a message that congress is required') do
   expect(page).to have_content(/congress.*required/i)
 end
+
+When('I save the first bill in the results') do
+  first('#bills-results tbody tr').click_button('Save')
+end
+
+Then('I should see the saved bill page with a summary') do
+  expect(page).to have_current_path(%r{/bills/\d+})
+  expect(page).to have_content('Summary:')
+  expect(Bill.last.summary).to be_present
+end

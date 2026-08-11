@@ -16,9 +16,10 @@ class BillsController < ApplicationController
   # GET /bills/1
   def show; end
 
-  # POST /bills
+  # POST /bills — saves a bill, fetching its summary from the API (Task 2.6)
   def create
     @bill = Bill.new(bill_params)
+    @bill.summary = fetch_summary(@bill) if @bill.summary.blank?
 
     respond_to do |format|
       if @bill.save
@@ -49,6 +50,26 @@ class BillsController < ApplicationController
 
   def recent_bills
     congress_client.bills(sort: 'updateDate+desc', limit: 50).get
+  end
+
+  # The summary lives at a separate /summaries endpoint; take the latest
+  # version by actionDate and strip the HTML before storing (Task 2.6).
+  def fetch_summary(bill)
+    return '' unless summary_lookup_possible?(bill)
+
+    result = congress_client.summaries(congress: bill.congress,
+                                       bill_type: bill.type.to_s.downcase,
+                                       bill_number: bill.number)
+    latest = (result['summaries'] || []).max_by { |s| s['actionDate'].to_s }
+    return '' if latest.nil?
+
+    ActionView::Base.full_sanitizer.sanitize(latest['text']).to_s.strip
+  rescue Congress::Error
+    ''
+  end
+
+  def summary_lookup_possible?(bill)
+    [bill.congress, bill.type, bill.number].all?(&:present?)
   end
 
   def congress_client

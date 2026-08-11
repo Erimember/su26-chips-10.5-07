@@ -12,6 +12,13 @@ RSpec.describe BillsController do
     { title: '', congress: nil, number: nil }
   end
 
+  def stub_summaries
+    stub_request(:get, %r{api\.congress\.gov/v3/bill/119/hr/\d+/summaries})
+      .to_return(status: 200,
+                 body: Rails.root.join('spec/fixtures/congress_api/bill_summaries.json').read,
+                 headers: { 'Content-Type' => 'application/json' })
+  end
+
   describe 'GET /index' do
     before do
       stub_request(:get, %r{api\.congress\.gov/v3/bill})
@@ -46,6 +53,13 @@ RSpec.describe BillsController do
       it 'redirects to the created bill' do
         post bills_url, params: { bill: valid_attributes }
         expect(response).to redirect_to(bill_url(Bill.last))
+      end
+
+      it 'fetches and sanitizes the summary when none is provided' do
+        stub_summaries
+        post bills_url, params: { bill: valid_attributes.except(:summary) }
+        expect(Bill.last.summary).to be_present
+        expect(Bill.last.summary).not_to include('<p>')
       end
     end
 

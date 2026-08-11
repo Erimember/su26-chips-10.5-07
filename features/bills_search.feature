@@ -21,3 +21,10 @@ Feature: Search congress.gov bills
     When I visit the bills page
     And I search bills for congress "" and type "hr"
     Then I should see a message that congress is required
+
+  @bills
+  Scenario: Saving a bill from the results stores it with its summary
+    When I visit the bills page
+    And I search bills for congress "119" and type "hr"
+    And I save the first bill in the results
+    Then I should see the saved bill page with a summary
