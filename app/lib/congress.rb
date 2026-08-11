@@ -83,9 +83,17 @@ module Congress
       end
     end
 
-    def bills(congress:, type: 'all', offset: 0, limit: 20)
-      path = type == 'all' ? "bill/#{congress}" : "bill/#{congress}/#{type}"
-      Response.new(self, path, offset: offset, limit: limit)
+    def bills(congress: nil, type: 'all', offset: 0, limit: 20, sort: nil)
+      path = if congress.nil?
+               'bill'
+             elsif type == 'all'
+               "bill/#{congress}"
+             else
+               "bill/#{congress}/#{type}"
+             end
+      params = { offset: offset, limit: limit }
+      params[:sort] = sort if sort
+      Response.new(self, path, params)
     end
 
     def bill_detail(congress:, bill_type:, bill_number:)
@@ -120,6 +128,10 @@ module Congress
 
     def committees(congress:, chamber:)
       Response.new(self, "committee/#{congress}/#{chamber}")
+    end
+
+    def summaries(congress:, bill_type:, bill_number:)
+      Response.new(self, "bill/#{congress}/#{bill_type}/#{bill_number}/summaries").get
     end
 
     def get(path, params={})
