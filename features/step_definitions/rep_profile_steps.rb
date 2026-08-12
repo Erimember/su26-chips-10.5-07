@@ -11,7 +11,8 @@ Given /(.*) has a news article$/ do |name|
     representative: rep,
     title: 'Test News Item',
     link: 'https://testnews.com',
-    description: 'test'
+    description: 'test',
+    issue: 'Free Speech'
   )
 end
 

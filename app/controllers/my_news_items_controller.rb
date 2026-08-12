@@ -55,6 +55,6 @@ class MyNewsItemsController < ApplicationController
   end
 
   def news_item_params
-    params.require(:news_item).permit(:title, :description, :link, :representative_id)
+    params.require(:news_item).permit(:title, :issue, :description, :link, :representative_id)
   end
 end
