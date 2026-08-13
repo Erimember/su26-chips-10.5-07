@@ -5,6 +5,7 @@
 # Table name: news_items
 #
 #  id                :integer          not null, primary key
+#  average_rating    :float
 #  description       :text
 #  issue             :string
 #  link              :string           not null
@@ -20,6 +21,7 @@
 class NewsItem < ApplicationRecord
   # TODO: this belongs to a user (creator_id)
   belongs_to :representative
+  has_many :ratings, dependent: :destroy
   def self.issues
     ['Free Speech', 'Immigration', 'Terrorism', "Social Security and
       Medicare", 'Abortion', 'Student Loans', 'Gun Control', 'Unemployment',

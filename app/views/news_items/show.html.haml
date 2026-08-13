@@ -22,6 +22,21 @@
           %dt.col-sm-9
             = @news_item.issue
         %dl.row
+          %dt.col-sm-3.text-md-right Rating:
+          %dt.col-sm-9
+            - if @news_item.average_rating.present?
+              #{@news_item.average_rating} / 5
+              (#{@news_item.ratings.count})
+            - else
+              No ratings yet
+            - if current_user
+              - my_rating = @news_item.ratings.find_by(user: current_user)
+              - rate_url = representative_news_item_rating_path(@representative, @news_item)
+              = form_with url: rate_url, method: :post, local: true do
+                - choices = options_for_select(1..5, my_rating&.value)
+                = select_tag 'rating[value]', choices
+                = submit_tag 'Rate'
+        %dl.row
           %dt.col-sm-3.text-md-right Time Added:
           %dt.col-sm-9
             %time.timeago{ datetime: @news_item.created_at.iso8601 }
