@@ -1,4 +1,5 @@
 %p.notice= notice
+%h1= bill_display_number(@bill)
 = render @bill
 %div
-  = link_to 'Back to bills', bills_path
+  = link_to 'Back to bills', bills_path, class: 'text-dark'

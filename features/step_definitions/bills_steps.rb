@@ -39,3 +39,12 @@ Then('I should see the saved bill page with a summary') do
   expect(page).to have_content('Summary:')
   expect(Bill.last.summary).to be_present
 end
+
+Given('a bill has been saved') do
+  @saved_bill = Bill.create!(title: 'Lower Energy Costs Act', congress: 119, number: 1,
+                             original_chamber: 'House', type: 'HR', summary: 'An energy bill.')
+end
+
+When("I visit that saved bill's page") do
+  visit "/bills/#{@saved_bill.id}"
+end
