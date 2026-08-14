@@ -63,7 +63,7 @@ class BillsController < ApplicationController
     latest = (result['summaries'] || []).max_by { |s| s['actionDate'].to_s }
     return '' if latest.nil?
 
-    ActionView::Base.full_sanitizer.sanitize(latest['text']).to_s.strip
+    ActionView::Base.full_sanitizer.sanitize(latest['text']).to_s.gsub('&nbsp;', ' ').squish
   rescue Congress::Error
     ''
   end

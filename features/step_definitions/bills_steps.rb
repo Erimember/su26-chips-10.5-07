@@ -11,6 +11,11 @@ When('I search bills for congress {string} and type {string}') do |congress, typ
 end
 
 Then('I should see a bills results table') do
+  # Wait for stable text first: content queries re-query the DOM each time,
+  # so this rides out the post-submit re-render that goes stale mid-check.
+  expect(page).to have_content(/Showing \d+ of/)
+  expect(page).to have_css('table#bills-results tbody tr', minimum: 1)
+rescue RSpec::Expectations::ExpectationNotMetError
   expect(page).to have_css('table#bills-results tbody tr', minimum: 1)
 end
 
